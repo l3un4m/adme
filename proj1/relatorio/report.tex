@@ -1,0 +1,23 @@
+\documentclass{article}
+
+\title{Relatório ADME Projeto 1 Grupo 1}
+\author{Manuel Dias 96056}
+\begin{document}
+    \maketitle
+    \newpage
+    We start this project by extracting the dataframe "BudgetItaly" from the "Ecdat" and extract the pfood column as it's asked using the commands:
+
+    library('Ecdat')
+
+    data(package = "Ecdat")
+
+    dat = as.data.frame(BudgetItaly)
+
+    dat <- subset(dat, select = -4)
+
+    Since we want to study the year 73 we create a different variable that only has that row so it's easier to compare visually the results using the command:
+
+    dat\textunderscore 73 <- dat[73,]"
+
+
+\end{document}
