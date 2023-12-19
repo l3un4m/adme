@@ -139,10 +139,11 @@ dat_budget.pca
 dat_73_budget.pca <- prcomp(dat_73)
 dat_73_budget.pca
 
-#Classical Sample Covariance Estimate#
+#Classical Sample Covariance Estimate#ATENÇÂO
 dat_cc <- CovClassic(dat)
+#dat_cc.pca <- prcomp(dat_cc)
 dat_73_cc <- CovClassic(dat_73)
-
+#dat_73_cc.pca <- prcomp(dat_73_cc)
 #Standardized Variables#
 dat_stand <- scale(dat)
 dat_pca_stand <- prcomp(dat_stand)
@@ -150,3 +151,16 @@ summary(dat_pca_stand)
 dat_73_stand <- scale(dat_73)
 dat_73_pca_stand <- prcomp(dat_73_stand)
 summary(dat_73_pca_stand)
+
+####3####
+dat_p3 <- dat
+#Function to multiply the values of the 5 first rows by 0.01 as it's asked
+for (row_index in 1:5) {
+  for (col_index in 1:ncol(dat_p3)) {
+    dat_p3[row_index, col_index] <- dat_p3[row_index, col_index] * 0.01
+  }
+}
+
+#Classical PCA#
+dat_p3.pca <- prcomp(dat_p3)
+#Robust PCA#ATENÇÂO
