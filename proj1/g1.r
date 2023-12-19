@@ -4,12 +4,14 @@ data(package = "Ecdat")
 ###General###
 dat = as.data.frame(BudgetItaly)
 dat <- subset(dat, select = -4)
+dat_noyear <- subset(dat, select = -7)
 dat_sum <- summary(dat)
 dat_sum
 
 ##Mean
 dat_mean <- colMeans(dat)
 dat_mean
+dat_noyear_mean <- colMeans(dat_noyear)
 #Trimmed Mean
 dat_trim_wfood = mean(dat$wfood, trim = 0.2)
 dat_trim_whouse = mean(dat$whouse, trim = 0.2)
@@ -62,8 +64,8 @@ dat_maha = mahalanobis(dat, dat_mean, dat_cov)
 dat_maha
 
 ###Year73###
-dat_73 = subset(dat, dat$year == "73")
-dat_73 <- subset(dat, select = -7)
+dat_73 <- subset(dat, dat$year == "73")
+dat_73 <- subset(dat_73, select = -7)
 dat_73
 ##Mean
 dat_73_mean <- colMeans(dat_73)
@@ -119,6 +121,6 @@ dat_73_mad_pct = mad(dat_73$pct)
 dat_73_maha = mahalanobis(dat_73, dat_73_mean, dat_73_cov)
 dat_73_maha
 
-
-
-
+###Graph###
+combined_matrix <- data.frame(cbind(data.matrix(dat_73_mean), data.matrix(dat_noyear_mean)))
+combined_matrix
