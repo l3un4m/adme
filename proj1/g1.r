@@ -1,78 +1,42 @@
-#install.packages('Ecdat')
 library('Ecdat')
-##data(package = "Ecdat")
+library(rrcov)
+library(plotrix)
+library(stats)
+library(WRS2)
+library(psych)
+library(DescTools)
+library(MASS)
 
-#@@@1@@@#
-#####All#####
+####1####
+###All###
 dat = as.data.frame(BudgetItaly)
 dat <- subset(dat, select = -4)
 dat_noyear <- subset(dat, select = -7)
 dat_sum <- summary(dat)
+dat
 
-#Mean#
-dat_mean <- colMeans(dat)
-dat_mean
-dat_noyear_mean <- colMeans(dat_noyear) #To create a table to compare we need to remove the year
-
-#Trimmed Mean#
-dat_trim_wfood = mean(dat$wfood, trim = 0.2)
-dat_trim_whouse = mean(dat$whouse, trim = 0.2)
-dat_trim_wmisc = mean(dat$wmisc, trim = 0.2)
-dat_trim_phouse = mean(dat$phouse, trim = 0.2)
-dat_trim_pmisc = mean(dat$pmisc, trim = 0.2)
-dat_trim_tt = mean(dat$totexp, trim = 0.2)
-dat_trim_year = mean(dat$year, trim = 0.2)
-dat_trim_income = mean(dat$income, trim = 0.2)
-dat_trim_size = mean(dat$size, trim = 0.2)
-dat_trim_pct = mean(dat$pct, trim = 0.2)
-
-#Winsorized Mean#
-library(WRS2)
-dat_win_wfood = winmean(dat$wfood, trim = 0.2)
-dat_win_whouse = winmean(dat$whouse, trim = 0.2)
-dat_win_wmisc = winmean(dat$wmisc, trim = 0.2)
-dat_win_phouse = winmean(dat$phouse, trim = 0.2)
-dat_win_pmisc = winmean(dat$pmisc, trim = 0.2)
-dat_win_tt = winmean(dat$totexp, trim = 0.2)
-dat_win_year = winmean(dat$year, trim = 0.2)
-dat_win_income = winmean(dat$income, trim = 0.2)
-dat_win_size = winmean(dat$size, trim = 0.2)
-dat_win_pct = winmean(dat$pct, trim = 0.2)
-
-#Median#
-dat_median <- sapply(dat, median)
-
-#Variance#
-dat_var = apply(dat, 2, var)
-datnoyear_var <- apply(dat_noyear, 2, var) #To create a table to compare we need to remove the year
-dat_vartot = sum(dat_var)
-
-#Covariance#
-dat_cov = round(cov(dat), digits = 9)
-dat_gen_var = det(dat_var/dat_cov)
-
-#mad variable#
-library(stats)
-dat_mad_wfood = mad(dat$wfood)
-dat_mad_whouse = mad(dat$whouse)
-dat_mad_wmisc = mad(dat$wmisc)
-dat_mad_phouse = mad(dat$phouse)
-dat_mad_pmisc = mad(dat$pmisc)
-dat_mad_totexp = mad(dat$totexp)
-dat_mad_year = mad(dat$year)
-dat_mad_income = mad(dat$income)
-dat_mad_size = mad(dat$size)
-dat_mad_pct = mad(dat$pct)
-
-#Mahalabonis Distance#
-dat_maha = mahalanobis(dat, dat_mean, dat_cov)
-
-#####All#####
-
+#3D exploded pie chart with all the years
+pie3D(as.vector(table(BudgetItaly$year)),labels=names(table(BudgetItaly$year)),
+      explode=0.1, main="BudgetItaly years",labelcex=1.0)
 
 ###Year73###
 dat_73 <- subset(dat, dat$year == "73")
 dat_73 <- subset(dat_73, select = -7)
+
+##Boxplot of all the variables pf year 73 except pfood
+# Create boxplots for each variable in the data frame
+pdf("boxplots55.pdf", width = 10, height = 5)
+par(mfrow = c(1, ncol(dat_73)))
+for (col_name in names(dat_73)) {
+  boxplot(
+    dat_73[[col_name]],
+    main = col_name, col = "lightpink",
+    border = "black",
+    notch = TRUE
+  )
+  rm(col_name)
+}
+dev.off()
 
 ##Mean#
 dat_73_mean <- colMeans(dat_73)
@@ -89,7 +53,6 @@ dat_73_trim_size = mean(dat_73$size, trim = 0.2)
 dat_73_trim_pct = mean(dat_73$pct, trim = 0.2)
 
 #Winsorized Mean#
-library(WRS2)
 dat_73_win_wfood = winmean(dat_73$wfood, trim = 0.2)
 dat_73_win_whouse = winmean(dat_73$whouse, trim = 0.2)
 dat_73_win_wmisc = winmean(dat_73$wmisc, trim = 0.2)
@@ -100,20 +63,18 @@ dat_73_win_year = winmean(dat_73$year, trim = 0.2)
 dat_73_win_income = winmean(dat_73$income, trim = 0.2)
 dat_73_win_size = winmean(dat_73$size, trim = 0.2)
 dat_73_win_pct = winmean(dat_73$pct, trim = 0.2)
-
-#Median#
+#Median#quando distribuiçao e simetrica media e mediana coincide
 dat_73_median <- sapply(dat_73, median)
 
 #Variance#
 dat_73_var = apply(dat_73, 2, var)
 dat_73_vartot = sum(dat_73_var)
-
+dat_73_vartot#referir no relatorio 
 #Covariance#
 dat_73_cov = round(cov(dat_73), digits = 9)
 dat_73_gen_var = det(dat_73_var/dat_73_cov)
 
 #mad variable#
-library(stats)
 dat_73_mad_wfood = mad(dat_73$wfood)
 dat_73_mad_whouse = mad(dat_73$whouse)
 dat_73_mad_wmisc = mad(dat_73$wmisc)
@@ -127,54 +88,69 @@ dat_73_mad_pct = mad(dat_73$pct)
 
 #Mahalabonis Distance#
 dat_73_maha = mahalanobis(dat_73, dat_73_mean, dat_73_cov)
+#Boxplot of Mahalanobis Distance
+pdf("mahalanobis_distances3.pdf", width = 8, height = 5)
+plot(
+  dat_73_maha,
+  pch = 16,
+  col = "purple",
+  main = "Mahalanobis Distances",
+  xlab = "Observation",
+  ylab = "Distance"
+)
+abline(
+  h = sqrt(qchisq(0.975, df = ncol(dat_73))),
+  col = "blue",
+  lty = 2
+)
+dev.off()
 
 ###Year73###
 
-###Graph###
-mean_mat <- data.frame(cbind(data.matrix(dat_73_mean), data.matrix(dat_noyear_mean)))
-mean_mat
-var_mat <- data.frame(cbind(data.matrix(dat_73_var), data.matrix(datnoyear_var)))
-var_mat
 
 
 
-#@@@2@@@#
-library(rrcov)
-#Original Scale#
-dat_budget.pca <- prcomp(dat)
-dat_budget.pca
+####2####
+#Original Scale#Classical Sample Covariance Estimate#
 dat_73_budget.pca <- prcomp(dat_73)
-dat_73_budget.pca
-
-#Classical Sample Covariance Estimate#ATENÇÂO
-dat_cc <- CovClassic(dat)
-
-#dat_cc.pca <- prcomp(dat_cc)
-dat_73_cc <- CovClassic(dat_73)
-
-#dat_73_cc.pca <- prcomp(dat_73_cc)
 
 #Standardized Variables#
-dat_stand <- scale(dat)
-dat_pca_stand <- prcomp(dat_stand)
-summary(dat_pca_stand)
 dat_73_stand <- scale(dat_73)
 dat_73_pca_stand <- prcomp(dat_73_stand)
+
+##teste b adicionar graf cotovelo
 summary(dat_73_pca_stand)
+summary(dat_73_budget.pca)
+##biplot
+teste <- dat_73_budget.pca$x
+abline(h=mean(teste[,2]), col = "blue")
+abline(h=mean(teste[,1]), col = "blue")
+biplot(dat_73_budget.pca, scale = 0)
+biplot(dat_73_pca_stand, scale = 0)
 
-
-
-#@@@3@@@#
-dat_p3 <- dat
-
+####3####
+##ALL##
+dat_p3 <- dat_73
 #Function to multiply the values of the 5 first rows by 0.01 as it's asked
-for (row_index in 1:5) {
-  for (col_index in 1:ncol(dat_p3)) {
+for (row_index in 1:5){
+  for (col_index in 1:9){
     dat_p3[row_index, col_index] <- dat_p3[row_index, col_index] * 0.01
   }
 }
-
 #Classical PCA#
 dat_p3.pca <- prcomp(dat_p3)
 
-#Robust PCA#ATENÇÂO
+##Year 73##
+dat_73_p3 <- dat_73
+#Function to multiply the values of the 5 first rows by 0.01 as it's asked
+for (row_index in 1:5) {
+  for (col_index in 1:9) {
+    dat_73_p3[row_index, col_index] <- dat_73_p3[row_index, col_index] * 0.01
+  }
+}
+#Classical PCA#
+dat_73_p3.pca <- prcomp(dat_73_p3)
+summary(dat_73_p3.pca)
+##Robust PCA on the MCD estimate, terminar
+dat_73.mcd_pca <- eigen(cov.rob(dat_73_p3)$cov)
+dat_73.mcd_pca
