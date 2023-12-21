@@ -2,8 +2,8 @@
 library('Ecdat')
 ##data(package = "Ecdat")
 
-####1####
-###All###
+#@@@1@@@#
+#####All#####
 dat = as.data.frame(BudgetItaly)
 dat <- subset(dat, select = -4)
 dat_noyear <- subset(dat, select = -7)
@@ -13,6 +13,7 @@ dat_sum <- summary(dat)
 dat_mean <- colMeans(dat)
 dat_mean
 dat_noyear_mean <- colMeans(dat_noyear) #To create a table to compare we need to remove the year
+
 #Trimmed Mean#
 dat_trim_wfood = mean(dat$wfood, trim = 0.2)
 dat_trim_whouse = mean(dat$whouse, trim = 0.2)
@@ -24,6 +25,7 @@ dat_trim_year = mean(dat$year, trim = 0.2)
 dat_trim_income = mean(dat$income, trim = 0.2)
 dat_trim_size = mean(dat$size, trim = 0.2)
 dat_trim_pct = mean(dat$pct, trim = 0.2)
+
 #Winsorized Mean#
 library(WRS2)
 dat_win_wfood = winmean(dat$wfood, trim = 0.2)
@@ -36,6 +38,7 @@ dat_win_year = winmean(dat$year, trim = 0.2)
 dat_win_income = winmean(dat$income, trim = 0.2)
 dat_win_size = winmean(dat$size, trim = 0.2)
 dat_win_pct = winmean(dat$pct, trim = 0.2)
+
 #Median#
 dat_median <- sapply(dat, median)
 
@@ -60,9 +63,12 @@ dat_mad_year = mad(dat$year)
 dat_mad_income = mad(dat$income)
 dat_mad_size = mad(dat$size)
 dat_mad_pct = mad(dat$pct)
+
 #Mahalabonis Distance#
 dat_maha = mahalanobis(dat, dat_mean, dat_cov)
-###All###
+
+#####All#####
+
 
 ###Year73###
 dat_73 <- subset(dat, dat$year == "73")
@@ -94,6 +100,7 @@ dat_73_win_year = winmean(dat_73$year, trim = 0.2)
 dat_73_win_income = winmean(dat_73$income, trim = 0.2)
 dat_73_win_size = winmean(dat_73$size, trim = 0.2)
 dat_73_win_pct = winmean(dat_73$pct, trim = 0.2)
+
 #Median#
 dat_73_median <- sapply(dat_73, median)
 
@@ -131,7 +138,7 @@ var_mat
 
 
 
-####2####
+#@@@2@@@#
 library(rrcov)
 #Original Scale#
 dat_budget.pca <- prcomp(dat)
@@ -141,9 +148,12 @@ dat_73_budget.pca
 
 #Classical Sample Covariance Estimate#ATENÇÂO
 dat_cc <- CovClassic(dat)
+
 #dat_cc.pca <- prcomp(dat_cc)
 dat_73_cc <- CovClassic(dat_73)
+
 #dat_73_cc.pca <- prcomp(dat_73_cc)
+
 #Standardized Variables#
 dat_stand <- scale(dat)
 dat_pca_stand <- prcomp(dat_stand)
@@ -152,8 +162,11 @@ dat_73_stand <- scale(dat_73)
 dat_73_pca_stand <- prcomp(dat_73_stand)
 summary(dat_73_pca_stand)
 
-####3####
+
+
+#@@@3@@@#
 dat_p3 <- dat
+
 #Function to multiply the values of the 5 first rows by 0.01 as it's asked
 for (row_index in 1:5) {
   for (col_index in 1:ncol(dat_p3)) {
@@ -163,4 +176,5 @@ for (row_index in 1:5) {
 
 #Classical PCA#
 dat_p3.pca <- prcomp(dat_p3)
+
 #Robust PCA#ATENÇÂO
