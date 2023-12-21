@@ -121,12 +121,7 @@ dat_73_pca_stand <- prcomp(dat_73_stand)
 ##teste b adicionar graf cotovelo
 summary(dat_73_pca_stand)
 summary(dat_73_budget.pca)
-##biplot
-teste <- dat_73_budget.pca$x
-abline(h=mean(teste[,2]), col = "blue")
-abline(h=mean(teste[,1]), col = "blue")
-biplot(dat_73_budget.pca, scale = 0)
-biplot(dat_73_pca_stand, scale = 0)
+
 
 ####3####
 ##ALL##
@@ -151,6 +146,15 @@ for (row_index in 1:5) {
 #Classical PCA#
 dat_73_p3.pca <- prcomp(dat_73_p3)
 summary(dat_73_p3.pca)
+#3 - biplots
+score_p3.pca <- dat_73_p3.pca$x
+plot(score_p3.pca[,1], score_p3.pca[,2], xlab = "PC1", ylab = "PC2", type = "n", xlim = c(min(score_p3.pca[,1]),
+  max(score_p3.pca[,1])), ylim = c(min(score_p3.pca[,2]), max(score_p3.pca[,2])))
+text(score_p3.pca[,1],score_p3.pca[,2], rownames(score_p3.pca),
+  col="blue",cex=0.7)
+abline(h=mean(score_p3.pca[,2]),col="green")
+abline(v=mean(score_p3.pca[,1]),col="green")
+
 ##Robust PCA on the MCD estimate, terminar
 dat_73.mcd_pca <- eigen(cov.rob(dat_73_p3)$cov)
 dat_73.mcd_pca
