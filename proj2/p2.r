@@ -105,8 +105,7 @@ summary(reg_mpg)
 #Percentage of variability of the response variable that is explained by the regression model: r²=0.8911, r²adj=0.884 
 multiple_r_squared <- summary(reg_mpg)$r.squared
 adjusted_r_squared <- summary(reg_mpg)$adj.r.squared
-res <- paste(' r² =', multiple_r_squared, '\n','r²adj =', adjusted_r_squared)
-cat(res)
+
 
 #2B
 
@@ -155,8 +154,12 @@ vec_p_pred_31_og
 
 res_obs_14 <- c(vec_p_conf_14, vec_p_conf_14_og, vec_p_pred_14, vec_p_pred_14_og)
 res_obs_31 <- c(vec_p_conf_31, vec_p_conf_31_og, vec_p_pred_31, vec_p_pred_31_og)
-result_df <- data.frame(Obs_14 = res_obs_14, Obs_31 = res_obs_31)
-rownames(result_df) <- c('CI', 'CI_OG', 'PI', 'PI_OG')
+res_2c <- data.frame(Obs_14 = res_obs_14, Obs_31 = res_obs_31)
+rownames(res_2c) <- c('CI', 'CI_OG', 'PI', 'PI_OG')
 
 # Displaying the result data frame
 print(result_df)
+
+res <- paste(' RESPOSTA 2A:' , '\n', 'r² =', multiple_r_squared, '\n','r²adj =', adjusted_r_squared, '\n','RESPOSTA 2C:')
+cat(res)
+result_df
