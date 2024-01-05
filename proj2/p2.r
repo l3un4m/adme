@@ -88,7 +88,7 @@ dev.off()
 
 
 #2A
-#COMEÇA AQUI, pedir para Manuel explicar no relatório
+#COMEÇA AQUI, pedir para Manuel explicar no relatório como ajustado diminuiu pouco preferimos ficar com menos
 reg1 = lm(mpg~cylinders + displacement + horsepower + weight + acceleration + year + origin, data=auto_subset)
 summary(reg1)
 reg2 = lm(mpg~cylinders  + horsepower + weight + acceleration + year + origin, data=auto_subset)
@@ -120,7 +120,6 @@ p_conf_14
 p_conf_14_lwr_value <- p_conf_14$fit[, "lwr"]
 p_conf_14_upr_value <- p_conf_14$fit[, "upr"]
 vec_p_conf_14 = paste(']' , p_conf_14_lwr_value ,  ' , ' , p_conf_14_upr_value , '[')
-vec_p_conf_14_og = paste(']' , exp(p_conf_14_lwr_value) ,  ' , ' , exp(p_conf_14_upr_value) , '[')
 
 #31
 p_conf_31 <- predict(reg_mpg, interval='confidence', newdata = obs_31, 0.975)
@@ -128,7 +127,6 @@ p_conf_31
 p_conf_31_lwr_value <- p_conf_31$fit[, "lwr"]
 p_conf_31_upr_value <- p_conf_31$fit[, "upr"]
 vec_p_conf_31 = paste(']' , p_conf_31_lwr_value ,  ' , ' , p_conf_31_upr_value , '[')
-vec_p_conf_31_og = paste(']' , exp(p_conf_31_lwr_value) ,  ' , ' , exp(p_conf_31_upr_value) , '[')
 
 ##Prediction Interval##
 #14
@@ -137,29 +135,24 @@ p_pred_14
 p_pred_14_lwr_value <- p_pred_14$fit[, "lwr"]
 p_pred_14_upr_value <- p_pred_14$fit[, "upr"]
 vec_p_pred_14 = paste(']' , p_pred_14_lwr_value ,  ' , ' , p_pred_14_upr_value , '[')
-vec_p_pred_14_og = paste(']' , exp(p_pred_14_lwr_value) ,  ' , ' , exp(p_pred_14_upr_value) , '[')
 p_pred_14
 vec_p_pred_14
-vec_p_pred_14_og
+
 #31
 p_pred_31 <- predict(reg_mpg, interval='prediction', newdata = obs_31, 0.975)
 p_pred_31
 p_pred_31_lwr_value <- p_pred_31$fit[, "lwr"]
 p_pred_31_upr_value <- p_pred_31$fit[, "upr"]
 vec_p_pred_31 = paste(']' , p_pred_31_lwr_value ,  ' , ' , p_pred_31_upr_value , '[')
-vec_p_pred_31_og = paste(']' , exp(p_pred_31_lwr_value) ,  ' , ' , exp(p_pred_31_upr_value) , '[')
 p_pred_31
 vec_p_pred_31
-vec_p_pred_31_og
 
-res_obs_14 <- c(vec_p_conf_14, vec_p_conf_14_og, vec_p_pred_14, vec_p_pred_14_og)
-res_obs_31 <- c(vec_p_conf_31, vec_p_conf_31_og, vec_p_pred_31, vec_p_pred_31_og)
+res_obs_14 <- c(vec_p_conf_14, vec_p_pred_14)
+res_obs_31 <- c(vec_p_conf_31, vec_p_pred_31)
 res_2c <- data.frame(Obs_14 = res_obs_14, Obs_31 = res_obs_31)
-rownames(res_2c) <- c('CI', 'CI_OG', 'PI', 'PI_OG')
+rownames(res_2c) <- c('CI', 'PI')
 
-# Displaying the result data frame
-print(result_df)
 
 res <- paste(' RESPOSTA 2A:' , '\n', 'r² =', multiple_r_squared, '\n','r²adj =', adjusted_r_squared, '\n','RESPOSTA 2C:')
 cat(res)
-result_df
+res_2c
