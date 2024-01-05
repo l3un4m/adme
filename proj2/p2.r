@@ -90,7 +90,6 @@ dev.off()
 
 
 #2A
-#COMEÇA AQUI, pedir para Manuel explicar no relatório como ajustado diminuiu pouco preferimos ficar com menos
 reg1 = lm(mpg~cylinders + displacement + horsepower + weight + acceleration + year + origin, data=auto_subset)
 summary(reg1)
 reg2 = lm(mpg~cylinders  + horsepower + weight + acceleration + year + origin, data=auto_subset)
@@ -101,7 +100,6 @@ reg4 = lm(mpg~cylinders  + horsepower + weight + acceleration , data=auto_subset
 summary(reg4)
 reg5 = lm(mpg~cylinders  + weight + acceleration , data=auto_subset)
 summary(reg5)
-#Fazendo este comando e retirando o valor mais alto que n tem * até chegarmos a um output só com asterisco vemos que cylinders  + weight + acceleration sao os selecionados
 reg_mpg <- lm(log(mpg) ~ log(cylinders) + log(weight) + log(acceleration), data = auto_subset)
 summary(reg_mpg)
 #Percentage of variability of the response variable that is explained by the regression model: r²=0.8911, r²adj=0.884 
