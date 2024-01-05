@@ -112,19 +112,19 @@ adjusted_r_squared <- summary(reg_mpg)$adj.r.squared
 #2B
 # Hat's values - leverage points
 
-p <- length(coef(reg5)) - 1
+p <- length(coef(reg_mpg)) - 1
 n <- nrow(auto_subset)
 
-hM=hatvalues(reg5)
+hM=hatvalues(reg_mpg)
 hMlev=hM[hM>2*p/n]
 # Cook's distances - influential observations
-cM=cooks.distance(reg5)
+cM=cooks.distance(reg_mpg)
 cMinfl=cM[cM>4/(n-p)]
 cMinfl_R=cM[cM>4*mean(cM)] #R rule
 
 # Influential plots
-influenceIndexPlot(reg5)
-influencePlot(reg5)
+influenceIndexPlot(reg_mpg)
+influencePlot(reg_mpg)
 #2C
 obs_14 <- auto_subset[14,]
 obs_31 <- auto_subset[31,]
