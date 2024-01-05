@@ -8,7 +8,7 @@ library(DescTools)
 library(MASS)
 library(ggplot2)
 library(car)
-
+library(ISLR)
 # Load Auto dataset
 data("Auto")
 
