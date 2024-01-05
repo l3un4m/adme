@@ -6,6 +6,8 @@ library(WRS2)
 library(psych)
 library(DescTools)
 library(MASS)
+library(ggplot2)
+library(car)
 
 # Load Auto dataset
 data("Auto")
@@ -108,7 +110,21 @@ adjusted_r_squared <- summary(reg_mpg)$adj.r.squared
 
 
 #2B
+# Hat's values - leverage points
 
+p <- length(coef(reg5)) - 1
+n <- nrow(auto_subset)
+
+hM=hatvalues(reg5)
+hMlev=hM[hM>2*p/n]
+# Cook's distances - influential observations
+cM=cooks.distance(reg5)
+cMinfl=cM[cM>4/(n-p)]
+cMinfl_R=cM[cM>4*mean(cM)] #R rule
+
+# Influential plots
+influenceIndexPlot(reg5)
+influencePlot(reg5)
 #2C
 obs_14 <- auto_subset[14,]
 obs_31 <- auto_subset[31,]
